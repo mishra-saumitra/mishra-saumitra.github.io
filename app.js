@@ -6,7 +6,7 @@ function closeMenu() { menuButton.setAttribute('aria-expanded', 'false'); menuBu
 menuButton.addEventListener('click', () => { const open = menuButton.getAttribute('aria-expanded') !== 'true'; menuButton.setAttribute('aria-expanded', String(open)); menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); navigation.classList.toggle('open', open); });
 navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && navigation.classList.contains('open')) { closeMenu(); menuButton.focus(); } });
-document.querySelector('#year').textContent = String(new Date().getFullYear());
+
 
 const layers = {
   foundation: { label: 'FOUNDATION FIRST', title: 'A modernization path<br>that respects the existing estate.', text: 'BW readiness, in-place conversion, LSA++ design and performance tuning. Keep reporting dependable while the architecture evolves.', tags: ['ADSOs & CompositeProviders', 'Delta handling', 'Reconciliation & cutover'] },
