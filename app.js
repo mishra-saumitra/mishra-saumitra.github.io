@@ -31,4 +31,29 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('main section[id]').forEach(section => sectionObserver.observe(section));
   if (!reduceMotion) { document.body.classList.add('motion-ready'); const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.remove('pending'); entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); } }), { threshold: .07 }); document.querySelectorAll('.reveal').forEach(element => { element.classList.add('pending'); revealObserver.observe(element); }); }
 }
-if (!reduceMotion) { const roles = ['SAP Data & Analytics Consultant', 'SAP Datasphere & Business Data Cloud', 'SAP Business AI & Data Architecture']; const target = document.querySelector('#rotating-role'); let index = 0; setInterval(() => { if (document.hidden) return; index = (index + 1) % roles.length; target.textContent = roles[index]; }, 4200); }
+// Reference pacing: type 80 ms, hold 1100 ms, erase 30 ms.
+const roleTarget = document.querySelector('#rotating-role');
+const roles = ['SAP Data & Analytics', 'SAP Datasphere & BDC', 'SAP Data Architect'];
+if (!reduceMotion && roleTarget) {
+  let roleIndex = 0;
+  let characterIndex = 0;
+  let deleting = false;
+  roleTarget.textContent = '';
+  function typeRole() {
+    if (document.hidden) { setTimeout(typeRole, 250); return; }
+    const role = roles[roleIndex];
+    characterIndex += deleting ? -1 : 1;
+    roleTarget.textContent = role.slice(0, characterIndex);
+    let delay = deleting ? 30 : 80;
+    if (!deleting && characterIndex === role.length) {
+      deleting = true;
+      delay = 1100;
+    } else if (deleting && characterIndex === 0) {
+      deleting = false;
+      roleIndex = (roleIndex + 1) % roles.length;
+      delay = 350;
+    }
+    setTimeout(typeRole, delay);
+  }
+  setTimeout(typeRole, 350);
+}
